@@ -1,3 +1,204 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --type-scale-ratio: 1.25;
+  --base-font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+}
+
+.typography {
+  --flow-space: 1.5rem;
+  font-size: var(--base-font-size);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.typography * + * {
+  margin-top: var(--flow-space);
+}
+
+.typography h1 {
+  font-size: clamp(3rem, 2.5rem + 2.5vw, 4rem);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  font-weight: 800;
+  --flow-space: 3rem;
+}
+
+.typography h2 {
+  font-size: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  font-weight: 700;
+  --flow-space: 2.5rem;
+}
+
+.typography h3 {
+  font-size: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  font-weight: 600;
+  --flow-space: 2rem;
+}
+
+.typography h4 {
+  font-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  line-height: var(--line-height-normal);
+  font-weight: 600;
+  --flow-space: 1.75rem;
+}
+
+.typography h5 {
+  font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  line-height: var(--line-height-normal);
+  font-weight: 500;
+  --flow-space: 1.5rem;
+}
+
+.typography h6 {
+  font-size: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  line-height: var(--line-height-normal);
+  font-weight: 500;
+  --flow-space: 1.25rem;
+}
+
+.typography p {
+  --flow-space: 1.5rem;
+}
+
+.typography .lead {
+  font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  line-height: var(--line-height-relaxed);
+  color: rgb(107 114 128);
+  --flow-space: 2rem;
+}
+
+.typography .small {
+  font-size: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  line-height: var(--line-height-normal);
+  color: rgb(107 114 128);
+}
+
+.typography blockquote {
+  border-left: 4px solid rgb(59 130 246);
+  padding-left: 1.5rem;
+  font-style: italic;
+  font-size: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  color: rgb(75 85 99);
+  --flow-space: 2rem;
+}
+
+.typography code {
+  background-color: rgb(243 244 246);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.typography pre {
+  background-color: rgb(17 24 39);
+  color: rgb(229 231 235);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  --flow-space: 2rem;
+}
+
+.typography pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.typography ul,
+.typography ol {
+  padding-left: 1.5rem;
+  --flow-space: 1.5rem;
+}
+
+.typography li {
+  margin-top: 0.5rem;
+}
+
+.preview-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 1rem;
+  padding: 2rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+    repeat;
+  opacity: 0.5;
+}
+
+.preview-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.control-panel {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #3b82f6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.code-output {
+  background-color: #1f2937;
+  color: #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  max-height: 400px;
+  overflow-y: auto;
+}
