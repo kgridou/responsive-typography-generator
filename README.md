@@ -43,10 +43,17 @@ Perfect for granular control and existing Tailwind CSS workflows:
 ```
 
 **Generated CSS:**
+
 ```css
-.text-fluid-xs { font-size: clamp(12px, 11px + 0.125vw, 14px); }
-.text-fluid-sm { font-size: clamp(14px, 13px + 0.1875vw, 16px); }
-.text-fluid-base { font-size: clamp(16px, 14px + 0.25vw, 18px); }
+.text-fluid-xs {
+  font-size: clamp(12px, 11px + 0.125vw, 14px);
+}
+.text-fluid-sm {
+  font-size: clamp(14px, 13px + 0.1875vw, 16px);
+}
+.text-fluid-base {
+  font-size: clamp(16px, 14px + 0.25vw, 18px);
+}
 /* ... more utility classes */
 ```
 
@@ -65,6 +72,7 @@ Ideal for content-heavy sections and consistent styling:
 ```
 
 **Generated CSS:**
+
 ```css
 .typography {
   --flow-space: 1.5rem;
@@ -86,13 +94,13 @@ Ideal for content-heavy sections and consistent styling:
 
 ### Typography Controls
 
-| Setting | Range | Default | Description |
-|---------|-------|---------|-------------|
-| **Base Font Size** | 14px - 20px | 16px | Foundation size for the type scale |
-| **Type Scale Ratio** | 1.125 - 1.5 | 1.25 | Multiplier for heading size hierarchy |
-| **Line Height** | Tight/Normal/Relaxed | Normal (1.5) | Vertical spacing between lines |
-| **Letter Spacing** | Tight/Normal/Wide | Normal (0) | Horizontal character spacing |
-| **Viewport Scaling** | 0.25vw - 2vw | 0.5vw | Rate of size change across viewports |
+| Setting              | Range                | Default      | Description                           |
+| -------------------- | -------------------- | ------------ | ------------------------------------- |
+| **Base Font Size**   | 14px - 20px          | 16px         | Foundation size for the type scale    |
+| **Type Scale Ratio** | 1.125 - 1.5          | 1.25         | Multiplier for heading size hierarchy |
+| **Line Height**      | Tight/Normal/Relaxed | Normal (1.5) | Vertical spacing between lines        |
+| **Letter Spacing**   | Tight/Normal/Wide    | Normal (0)   | Horizontal character spacing          |
+| **Viewport Scaling** | 0.25vw - 2vw         | 0.5vw        | Rate of size change across viewports  |
 
 ### CSS Custom Properties
 
@@ -167,10 +175,10 @@ module.exports = {
         'fluid-4xl': 'clamp(2.25rem, 1.9rem + 1.75vw, 3rem)',
         'fluid-5xl': 'clamp(3rem, 2.5rem + 2.5vw, 4rem)',
         'fluid-6xl': 'clamp(3.75rem, 3rem + 3.75vw, 5rem)',
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 ```
 
 ### CSS-in-JS Integration
@@ -212,14 +220,17 @@ const fluidTypography = {
 ### Common Issues
 
 **Typography looks too small on mobile:**
+
 - Increase the minimum value in your `clamp()` function
 - Reduce the viewport scaling factor
 
 **Typography looks too large on desktop:**
+
 - Decrease the maximum value in your `clamp()` function
 - Adjust the type scale ratio
 
 **Inconsistent spacing:**
+
 - Check CSS cascade and specificity issues
 - Ensure proper implementation of the `.typography` class
 
