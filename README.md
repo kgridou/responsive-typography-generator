@@ -1,6 +1,6 @@
 # Responsive Typography Generator
 
-A powerful tool for creating fluid, responsive typography systems using Tailwind CSS v4 variables and modern CSS `clamp()` functions. Generate scalable type systems that adapt beautifully across all device sizes without awkward breakpoints.
+A powerful tool for creating fluid, responsive typography systems using Tailwind CSS variables and modern CSS `clamp()` functions. Generate scalable type systems that adapt beautifully across all device sizes without awkward breakpoints.
 
 ![Typography Generator Preview](https://via.placeholder.com/800x400/667eea/ffffff?text=Responsive+Typography+Generator)
 
