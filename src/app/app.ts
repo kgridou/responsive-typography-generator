@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed, effect, ElementRef, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -32,12 +32,13 @@ import { Component, signal } from '@angular/core';
                     class="slider w-full"
                     min="14"
                     max="20"
-                    value="16"
+                    [value]="baseFontSize()"
                     step="1"
+                    (input)="onBaseFontSizeChange($event)"
                   />
                   <div class="flex justify-between text-xs text-gray-500 mt-1">
                     <span>14px</span>
-                    <span id="baseFontValue">16px</span>
+                    <span id="baseFontValue">{{ baseFontValue() }}</span>
                     <span>20px</span>
                   </div>
                 </div>
@@ -52,12 +53,13 @@ import { Component, signal } from '@angular/core';
                     class="slider w-full"
                     min="1.125"
                     max="1.5"
-                    value="1.25"
+                    [value]="typeScale()"
                     step="0.025"
+                    (input)="onTypeScaleChange($event)"
                   />
                   <div class="flex justify-between text-xs text-gray-500 mt-1">
                     <span>1.125</span>
-                    <span id="typeScaleValue">1.25</span>
+                    <span id="typeScaleValue">{{ typeScaleValue() }}</span>
                     <span>1.5</span>
                   </div>
                 </div>
@@ -67,9 +69,11 @@ import { Component, signal } from '@angular/core';
                   <select
                     id="lineHeight"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    [value]="lineHeight()"
+                    (change)="onLineHeightChange($event)"
                   >
                     <option value="1.25">Tight (1.25)</option>
-                    <option value="1.5" selected>Normal (1.5)</option>
+                    <option value="1.5">Normal (1.5)</option>
                     <option value="1.75">Relaxed (1.75)</option>
                   </select>
                 </div>
@@ -79,9 +83,11 @@ import { Component, signal } from '@angular/core';
                   <select
                     id="letterSpacing"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    [value]="letterSpacing()"
+                    (change)="onLetterSpacingChange($event)"
                   >
                     <option value="-0.025em">Tight (-0.025em)</option>
-                    <option value="0" selected>Normal (0)</option>
+                    <option value="0">Normal (0)</option>
                     <option value="0.025em">Wide (0.025em)</option>
                   </select>
                 </div>
@@ -96,12 +102,13 @@ import { Component, signal } from '@angular/core';
                     class="slider w-full"
                     min="0.25"
                     max="2"
-                    value="0.5"
+                    [value]="viewportScale()"
                     step="0.25"
+                    (input)="onViewportScaleChange($event)"
                   />
                   <div class="flex justify-between text-xs text-gray-500 mt-1">
                     <span>0.25vw</span>
-                    <span id="viewportScaleValue">0.5vw</span>
+                    <span id="viewportScaleValue">{{ viewportScaleValue() }}</span>
                     <span>2vw</span>
                   </div>
                 </div>
@@ -112,11 +119,25 @@ import { Component, signal } from '@angular/core';
               <h3 class="text-xl font-semibold mb-4 text-gray-900">Application Method</h3>
               <div class="space-y-3">
                 <label class="flex items-center">
-                  <input type="radio" name="method" value="individual" class="mr-3" checked />
+                  <input
+                    type="radio"
+                    name="method"
+                    value="individual"
+                    class="mr-3"
+                    [checked]="method() === 'individual'"
+                    (change)="onMethodChange($event)"
+                  />
                   <span class="text-sm">Individual Element Classes</span>
                 </label>
                 <label class="flex items-center">
-                  <input type="radio" name="method" value="global" class="mr-3" />
+                  <input
+                    type="radio"
+                    name="method"
+                    value="global"
+                    class="mr-3"
+                    [checked]="method() === 'global'"
+                    (change)="onMethodChange($event)"
+                  />
                   <span class="text-sm">Global .typography Class</span>
                 </label>
               </div>
@@ -124,10 +145,11 @@ import { Component, signal } from '@angular/core';
 
             <div class="control-panel">
               <h3 class="text-xl font-semibold mb-4 text-gray-900">Generated CSS</h3>
-              <div class="code-output" id="cssOutput"></div>
+              <div class="code-output" #cssOutput>{{ generatedCSS() }}</div>
               <button
                 id="copyCss"
                 class="mt-3 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                (click)="copyCSS()"
               >
                 Copy CSS
               </button>
@@ -195,15 +217,15 @@ import { Component, signal } from '@angular/core';
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                 <div class="p-3 bg-gray-50 rounded">
                   <div class="text-xs text-gray-500">Mobile</div>
-                  <div class="text-sm font-mono" id="mobileSize">16px</div>
+                  <div class="text-sm font-mono" id="mobileSize">{{ mobileSize() }}</div>
                 </div>
                 <div class="p-3 bg-gray-50 rounded">
                   <div class="text-xs text-gray-500">Tablet</div>
-                  <div class="text-sm font-mono" id="tabletSize">17px</div>
+                  <div class="text-sm font-mono" id="tabletSize">{{ tabletSize() }}</div>
                 </div>
                 <div class="p-3 bg-gray-50 rounded">
                   <div class="text-xs text-gray-500">Desktop</div>
-                  <div class="text-sm font-mono" id="desktopSize">18px</div>
+                  <div class="text-sm font-mono" id="desktopSize">{{ desktopSize() }}</div>
                 </div>
               </div>
             </div>
@@ -216,4 +238,185 @@ import { Component, signal } from '@angular/core';
 })
 export class App {
   protected readonly title = signal('responsive-typography-generator');
+
+  // Settings signals
+  protected readonly baseFontSize = signal(16);
+  protected readonly typeScale = signal(1.25);
+  protected readonly lineHeight = signal('1.5');
+  protected readonly letterSpacing = signal('0');
+  protected readonly viewportScale = signal(0.5);
+  protected readonly method = signal<'individual' | 'global'>('individual');
+
+  // Display values
+  protected readonly baseFontValue = computed(() => `${this.baseFontSize()}px`);
+  protected readonly typeScaleValue = computed(() => this.typeScale().toString());
+  protected readonly viewportScaleValue = computed(() => `${this.viewportScale()}vw`);
+
+  // Breakpoint display
+  protected readonly mobileSize = computed(() => {
+    const base = this.baseFontSize();
+    const scale = this.viewportScale();
+    const size = Math.max(base * 0.875, base * 0.9 + (320 * scale) / 100);
+    return `${Math.round(size)}px`;
+  });
+
+  protected readonly tabletSize = computed(() => {
+    const base = this.baseFontSize();
+    const scale = this.viewportScale();
+    const size = base * 0.9 + (768 * scale) / 100;
+    return `${Math.round(size)}px`;
+  });
+
+  protected readonly desktopSize = computed(() => {
+    const base = this.baseFontSize();
+    const scale = this.viewportScale();
+    const size = Math.min(base * 1.125, base * 0.9 + (1024 * scale) / 100);
+    return `${Math.round(size)}px`;
+  });
+
+  // CSS generation
+  protected readonly generatedCSS = computed(() => {
+    const base = this.baseFontSize();
+    const scale = this.typeScale();
+    const lineHeight = this.lineHeight();
+    const letterSpacing = this.letterSpacing();
+    const viewport = this.viewportScale();
+    const method = this.method();
+
+    if (method === 'global') {
+      return `:root {
+  --type-scale-ratio: ${scale};
+  --base-font-size: clamp(${base * 0.875}px, ${base * 0.9}px + ${viewport}vw, ${base * 1.125}px);
+  --line-height-normal: ${lineHeight};
+  --letter-spacing-normal: ${letterSpacing};
+}
+
+.typography {
+  --flow-space: 1.5rem;
+  font-size: var(--base-font-size);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.typography * + * {
+  margin-top: var(--flow-space);
+}
+
+.typography h1 {
+  font-size: clamp(${Math.round(base * Math.pow(scale, 4))}px, ${Math.round(base * Math.pow(scale, 3.5))}px + ${viewport * 2.5}vw, ${Math.round(base * Math.pow(scale, 5))}px);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  --flow-space: 3rem;
+}
+
+.typography h2 {
+  font-size: clamp(${Math.round(base * Math.pow(scale, 3))}px, ${Math.round(base * Math.pow(scale, 2.5))}px + ${viewport * 1.75}vw, ${Math.round(base * Math.pow(scale, 4))}px);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  --flow-space: 2.5rem;
+}
+
+.typography h3 {
+  font-size: clamp(${Math.round(base * Math.pow(scale, 2.5))}px, ${Math.round(base * Math.pow(scale, 2))}px + ${viewport * 1.375}vw, ${Math.round(base * Math.pow(scale, 3.5))}px);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  --flow-space: 2rem;
+}`;
+    } else {
+      return `/* Fluid Typography Utilities */
+.text-fluid-xs { font-size: clamp(${Math.round(base * 0.75)}px, ${Math.round(base * 0.7)}px + ${viewport * 0.25}vw, ${Math.round(base * 0.875)}px); }
+.text-fluid-sm { font-size: clamp(${Math.round(base * 0.875)}px, ${Math.round(base * 0.8)}px + ${viewport * 0.375}vw, ${base}px); }
+.text-fluid-base { font-size: clamp(${base}px, ${Math.round(base * 0.9)}px + ${viewport}vw, ${Math.round(base * 1.125)}px); }
+.text-fluid-lg { font-size: clamp(${Math.round(base * 1.125)}px, ${base}px + ${viewport * 0.625}vw, ${Math.round(base * 1.25)}px); }
+.text-fluid-xl { font-size: clamp(${Math.round(base * 1.25)}px, ${Math.round(base * 1.1)}px + ${viewport * 0.75}vw, ${Math.round(base * 1.5)}px); }
+.text-fluid-2xl { font-size: clamp(${Math.round(base * 1.5)}px, ${Math.round(base * 1.3)}px + ${viewport}vw, ${base * 2}px); }
+.text-fluid-3xl { font-size: clamp(${Math.round(base * Math.pow(scale, 2.5))}px, ${Math.round(base * Math.pow(scale, 2))}px + ${viewport * 1.375}vw, ${Math.round(base * Math.pow(scale, 3.5))}px); }
+.text-fluid-4xl { font-size: clamp(${Math.round(base * Math.pow(scale, 3))}px, ${Math.round(base * Math.pow(scale, 2.5))}px + ${viewport * 1.75}vw, ${Math.round(base * Math.pow(scale, 4))}px); }
+.text-fluid-5xl { font-size: clamp(${Math.round(base * Math.pow(scale, 4))}px, ${Math.round(base * Math.pow(scale, 3.5))}px + ${viewport * 2.5}vw, ${Math.round(base * Math.pow(scale, 5))}px); }
+.text-fluid-6xl { font-size: clamp(${Math.round(base * Math.pow(scale, 5))}px, ${Math.round(base * Math.pow(scale, 4.5))}px + ${viewport * 3.75}vw, ${Math.round(base * Math.pow(scale, 6))}px); }
+
+/* Line Heights */
+.leading-tight { line-height: 1.25; }
+.leading-normal { line-height: ${lineHeight}; }
+.leading-relaxed { line-height: 1.75; }
+
+/* Letter Spacing */
+.tracking-tight { letter-spacing: -0.025em; }
+.tracking-normal { letter-spacing: ${letterSpacing}; }
+.tracking-wide { letter-spacing: 0.025em; }`;
+    }
+  });
+
+  private cssOutputElement = viewChild<ElementRef<HTMLElement>>('cssOutput');
+
+  constructor() {
+    // Update CSS custom properties when settings change
+    effect(() => {
+      const root = document.documentElement;
+      const base = this.baseFontSize();
+      const scale = this.typeScale();
+      const lineHeight = this.lineHeight();
+      const letterSpacing = this.letterSpacing();
+      const viewport = this.viewportScale();
+
+      root.style.setProperty(
+        '--base-font-size',
+        `clamp(${base * 0.875}px, ${base * 0.9}px + ${viewport}vw, ${base * 1.125}px)`,
+      );
+      root.style.setProperty('--line-height-normal', lineHeight);
+      root.style.setProperty('--letter-spacing-normal', letterSpacing);
+      root.style.setProperty('--type-scale-ratio', scale.toString());
+    });
+  }
+
+  protected onBaseFontSizeChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.baseFontSize.set(parseInt(target.value));
+  }
+
+  protected onTypeScaleChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.typeScale.set(parseFloat(target.value));
+  }
+
+  protected onLineHeightChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.lineHeight.set(target.value);
+  }
+
+  protected onLetterSpacingChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.letterSpacing.set(target.value);
+  }
+
+  protected onViewportScaleChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.viewportScale.set(parseFloat(target.value));
+  }
+
+  protected onMethodChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.method.set(target.value as 'individual' | 'global');
+  }
+
+  protected async copyCSS(): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(this.generatedCSS());
+      const button = document.getElementById('copyCss') as HTMLButtonElement;
+      const originalText = button.textContent;
+      button.textContent = 'Copied!';
+      button.classList.add('bg-green-600');
+      button.classList.remove('bg-blue-600');
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.classList.remove('bg-green-600');
+        button.classList.add('bg-blue-600');
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy CSS:', err);
+    }
+  }
 }
