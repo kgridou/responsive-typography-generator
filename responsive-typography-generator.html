@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Typography Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontSize: {
+                        'fluid-xs': 'clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem)',
+                        'fluid-sm': 'clamp(0.875rem, 0.8rem + 0.375vw, 1rem)',
+                        'fluid-base': 'clamp(1rem, 0.9rem + 0.5vw, 1.125rem)',
+                        'fluid-lg': 'clamp(1.125rem, 1rem + 0.625vw, 1.25rem)',
+                        'fluid-xl': 'clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem)',
+                        'fluid-2xl': 'clamp(1.5rem, 1.3rem + 1vw, 2rem)',
+                        'fluid-3xl': 'clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem)',
+                        'fluid-4xl': 'clamp(2.25rem, 1.9rem + 1.75vw, 3rem)',
+                        'fluid-5xl': 'clamp(3rem, 2.5rem + 2.5vw, 4rem)',
+                        'fluid-6xl': 'clamp(3.75rem, 3rem + 3.75vw, 5rem)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --type-scale-ratio: 1.25;
+            --base-font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+            --line-height-tight: 1.25;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.75;
+            --letter-spacing-tight: -0.025em;
+            --letter-spacing-normal: 0;
+            --letter-spacing-wide: 0.025em;
+        }
+
+        .typography {
+            --flow-space: 1.5rem;
+            font-size: var(--base-font-size);
+            line-height: var(--line-height-normal);
+            letter-spacing: var(--letter-spacing-normal);
+        }
+
+        .typography * + * {
+            margin-top: var(--flow-space);
+        }
+
+        .typography h1 {
+            font-size: clamp(3rem, 2.5rem + 2.5vw, 4rem);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+            font-weight: 800;
+            --flow-space: 3rem;
+        }
+
+        .typography h2 {
+            font-size: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+            font-weight: 700;
+            --flow-space: 2.5rem;
+        }
+
+        .typography h3 {
+            font-size: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
+            line-height: var(--line-height-tight);
+            letter-spacing: var(--letter-spacing-tight);
+            font-weight: 600;
+            --flow-space: 2rem;
+        }
+
+        .typography h4 {
+            font-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+            line-height: var(--line-height-normal);
+            font-weight: 600;
+            --flow-space: 1.75rem;
+        }
+
+        .typography h5 {
+            font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+            line-height: var(--line-height-normal);
+            font-weight: 500;
+            --flow-space: 1.5rem;
+        }
+
+        .typography h6 {
+            font-size: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+            line-height: var(--line-height-normal);
+            font-weight: 500;
+            --flow-space: 1.25rem;
+        }
+
+        .typography p {
+            --flow-space: 1.5rem;
+        }
+
+        .typography .lead {
+            font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+            line-height: var(--line-height-relaxed);
+            color: rgb(107 114 128);
+            --flow-space: 2rem;
+        }
+
+        .typography .small {
+            font-size: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+            line-height: var(--line-height-normal);
+            color: rgb(107 114 128);
+        }
+
+        .typography blockquote {
+            border-left: 4px solid rgb(59 130 246);
+            padding-left: 1.5rem;
+            font-style: italic;
+            font-size: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+            color: rgb(75 85 99);
+            --flow-space: 2rem;
+        }
+
+        .typography code {
+            background-color: rgb(243 244 246);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+        }
+
+        .typography pre {
+            background-color: rgb(17 24 39);
+            color: rgb(229 231 235);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            --flow-space: 2rem;
+        }
+
+        .typography pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+        }
+
+        .typography ul, .typography ol {
+            padding-left: 1.5rem;
+            --flow-space: 1.5rem;
+        }
+
+        .typography li {
+            margin-top: 0.5rem;
+        }
+
+        .preview-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.5;
+        }
+
+        .preview-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .control-panel {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .code-output {
+            background-color: #1f2937;
+            color: #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-fluid-5xl font-bold text-gray-900 mb-4">Responsive Typography Generator</h1>
+            <p class="text-fluid-lg text-gray-600 max-w-3xl mx-auto">
+                Generate fluid, responsive typography using Tailwind CSS v4 variables and modern CSS clamp() functions. 
+                Control your type system with precision across all screen sizes.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Controls -->
+            <div class="space-y-6">
+                <div class="control-panel">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Typography Controls</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Base Font Size</label>
+                            <input type="range" id="baseFontSize" class="slider w-full" min="14" max="20" value="16" step="1">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>14px</span>
+                                <span id="baseFontValue">16px</span>
+                                <span>20px</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type Scale Ratio</label>
+                            <input type="range" id="typeScale" class="slider w-full" min="1.125" max="1.5" value="1.25" step="0.025">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>1.125</span>
+                                <span id="typeScaleValue">1.25</span>
+                                <span>1.5</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Line Height</label>
+                            <select id="lineHeight" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="1.25">Tight (1.25)</option>
+                                <option value="1.5" selected>Normal (1.5)</option>
+                                <option value="1.75">Relaxed (1.75)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Letter Spacing</label>
+                            <select id="letterSpacing" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="-0.025em">Tight (-0.025em)</option>
+                                <option value="0" selected>Normal (0)</option>
+                                <option value="0.025em">Wide (0.025em)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Viewport Scaling</label>
+                            <input type="range" id="viewportScale" class="slider w-full" min="0.25" max="2" value="0.5" step="0.25">
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>0.25vw</span>
+                                <span id="viewportScaleValue">0.5vw</span>
+                                <span>2vw</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-panel">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Application Method</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="radio" name="method" value="individual" class="mr-3" checked>
+                            <span class="text-sm">Individual Element Classes</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="method" value="global" class="mr-3">
+                            <span class="text-sm">Global .typography Class</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="control-panel">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-900">Generated CSS</h3>
+                    <div class="code-output" id="cssOutput"></div>
+                    <button id="copyCss" class="mt-3 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                        Copy CSS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preview -->
+            <div class="space-y-6">
+                <div class="preview-card">
+                    <div class="typography" id="preview">
+                        <h1>Fluid Typography Showcase</h1>
+                        <p class="lead">This is a lead paragraph that demonstrates how responsive typography adapts beautifully across different screen sizes and devices.</p>
+                        
+                        <h2>Section Heading</h2>
+                        <p>This is a regular paragraph with normal text flow. The typography system ensures optimal readability by automatically adjusting font sizes, line heights, and spacing based on the viewport size.</p>
+                        
+                        <h3>Subsection Title</h3>
+                        <p>Here's another paragraph showing how consistent vertical rhythm is maintained throughout different heading levels and text elements.</p>
+                        
+                        <blockquote>
+                            "Typography is the craft of endowing human language with a durable visual form."
+                        </blockquote>
+                        
+                        <h4>Code Examples</h4>
+                        <p>Inline code like <code>clamp(1rem, 0.9rem + 0.5vw, 1.125rem)</code> demonstrates how we achieve fluid scaling.</p>
+                        
+                        <pre><code>.text-fluid-base {
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+}</code></pre>
+                        
+                        <h5>Lists and Structure</h5>
+                        <ul>
+                            <li>Fluid typography scales smoothly</li>
+                            <li>No awkward breakpoints or jumps</li>
+                            <li>Maintains optimal reading experience</li>
+                            <li>Works across all device sizes</li>
+                        </ul>
+                        
+                        <h6>Small Details</h6>
+                        <p class="small">This is small text that still maintains readability while providing visual hierarchy and emphasis where needed.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow-lg">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-900">Responsive Breakpoint Test</h3>
+                    <p class="text-sm text-gray-600 mb-4">Resize your browser window to see the typography adapt in real-time.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div class="p-3 bg-gray-50 rounded">
+                            <div class="text-xs text-gray-500">Mobile</div>
+                            <div class="text-sm font-mono" id="mobileSize">16px</div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded">
+                            <div class="text-xs text-gray-500">Tablet</div>
+                            <div class="text-sm font-mono" id="tabletSize">17px</div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded">
+                            <div class="text-xs text-gray-500">Desktop</div>
+                            <div class="text-sm font-mono" id="desktopSize">18px</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSettings = {
+            baseFontSize: 16,
+            typeScale: 1.25,
+            lineHeight: 1.5,
+            letterSpacing: '0',
+            viewportScale: 0.5,
+            method: 'individual'
+        };
+
+        function updateTypography() {
+            const preview = document.getElementById('preview');
+            const root = document.documentElement;
+            
+            // Update CSS custom properties
+            root.style.setProperty('--base-font-size', `clamp(${currentSettings.baseFontSize * 0.875}px, ${currentSettings.baseFontSize * 0.9}px + ${currentSettings.viewportScale}vw, ${currentSettings.baseFontSize * 1.125}px)`);
+            root.style.setProperty('--line-height-normal', currentSettings.lineHeight);
+            root.style.setProperty('--letter-spacing-normal', currentSettings.letterSpacing);
+            root.style.setProperty('--type-scale-ratio', currentSettings.typeScale);
+            
+            generateCSS();
+            updateBreakpointDisplay();
+        }
+
+        function generateCSS() {
+            const { baseFontSize, typeScale, lineHeight, letterSpacing, viewportScale, method } = currentSettings;
+            
+            let css = '';
+            
+            if (method === 'global') {
+                css = `:root {
+  --type-scale-ratio: ${typeScale};
+  --base-font-size: clamp(${baseFontSize * 0.875}px, ${baseFontSize * 0.9}px + ${viewportScale}vw, ${baseFontSize * 1.125}px);
+  --line-height-normal: ${lineHeight};
+  --letter-spacing-normal: ${letterSpacing};
+}
+
+.typography {
+  --flow-space: 1.5rem;
+  font-size: var(--base-font-size);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+.typography * + * {
+  margin-top: var(--flow-space);
+}
+
+.typography h1 {
+  font-size: clamp(${Math.round(baseFontSize * Math.pow(typeScale, 4))}px, ${Math.round(baseFontSize * Math.pow(typeScale, 3.5))}px + ${viewportScale * 2.5}vw, ${Math.round(baseFontSize * Math.pow(typeScale, 5))}px);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  --flow-space: 3rem;
+}
+
+.typography h2 {
+  font-size: clamp(${Math.round(baseFontSize * Math.pow(typeScale, 3))}px, ${Math.round(baseFontSize * Math.pow(typeScale, 2.5))}px + ${viewportScale * 1.75}vw, ${Math.round(baseFontSize * Math.pow(typeScale, 4))}px);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  --flow-space: 2.5rem;
+}
+
+.typography h3 {
+  font-size: clamp(${Math.round(baseFontSize * Math.pow(typeScale, 2.5))}px, ${Math.round(baseFontSize * Math.pow(typeScale, 2))}px + ${viewportScale * 1.375}vw, ${Math.round(baseFontSize * Math.pow(typeScale, 3.5))}px);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  --flow-space: 2rem;
+}`;
+            } else {
+                css = `/* Fluid Typography Utilities */
+.text-fluid-xs { font-size: clamp(${Math.round(baseFontSize * 0.75)}px, ${Math.round(baseFontSize * 0.7)}px + ${viewportScale * 0.25}vw, ${Math.round(baseFontSize * 0.875)}px); }
+.text-fluid-sm { font-size: clamp(${Math.round(baseFontSize * 0.875)}px, ${Math.round(baseFontSize * 0.8)}px + ${viewportScale * 0.375}vw, ${baseFontSize}px); }
+.text-fluid-base { font-size: clamp(${baseFontSize}px, ${Math.round(baseFontSize * 0.9)}px + ${viewportScale}vw, ${Math.round(baseFontSize * 1.125)}px); }
+.text-fluid-lg { font-size: clamp(${Math.round(baseFontSize * 1.125)}px, ${baseFontSize}px + ${viewportScale * 0.625}vw, ${Math.round(baseFontSize * 1.25)}px); }
+.text-fluid-xl { font-size: clamp(${Math.round(baseFontSize * 1.25)}px, ${Math.round(baseFontSize * 1.1)}px + ${viewportScale * 0.75}vw, ${Math.round(baseFontSize * 1.5)}px); }
+.text-fluid-2xl { font-size: clamp(${Math.round(baseFontSize * 1.5)}px, ${Math.round(baseFontSize * 1.3)}px + ${viewportScale}vw, ${baseFontSize * 2}px); }
+.text-fluid-3xl { font-size: clamp(${Math.round(baseFontSize * Math.pow(typeScale, 2.5))}px, ${Math.round(baseFontSize * Math.pow(typeScale, 2))}px + ${viewportScale * 1.375}vw, ${Math.round(baseFontSize * Math.pow(typeScale, 3.5))}px); }
+.text-fluid-4xl { font-size: clamp(${Math.round(baseFontSize * Math.pow(typeScale, 3))}px, ${Math.round(baseFontSize * Math.pow(typeScale, 2.5))}px + ${viewportScale * 1.75}vw, ${Math.round(baseFontSize * Math.pow(typeScale, 4))}px); }
+.text-fluid-5xl { font-size: clamp(${Math.round(baseFontSize * Math.pow(typeScale, 4))}px, ${Math.round(baseFontSize * Math.pow(typeScale, 3.5))}px + ${viewportScale * 2.5}vw, ${Math.round(baseFontSize * Math.pow(typeScale, 5))}px); }
+.text-fluid-6xl { font-size: clamp(${Math.round(baseFontSize * Math.pow(typeScale, 5))}px, ${Math.round(baseFontSize * Math.pow(typeScale, 4.5))}px + ${viewportScale * 3.75}vw, ${Math.round(baseFontSize * Math.pow(typeScale, 6))}px); }
+
+/* Line Heights */
+.leading-tight { line-height: 1.25; }
+.leading-normal { line-height: ${lineHeight}; }
+.leading-relaxed { line-height: 1.75; }
+
+/* Letter Spacing */
+.tracking-tight { letter-spacing: -0.025em; }
+.tracking-normal { letter-spacing: ${letterSpacing}; }
+.tracking-wide { letter-spacing: 0.025em; }`;
+            }
+            
+            document.getElementById('cssOutput').textContent = css;
+        }
+
+        function updateBreakpointDisplay() {
+            const { baseFontSize, viewportScale } = currentSettings;
+            
+            // Simulate different viewport widths
+            const mobileSize = Math.max(baseFontSize * 0.875, baseFontSize * 0.9 + (320 * viewportScale / 100));
+            const tabletSize = baseFontSize * 0.9 + (768 * viewportScale / 100);
+            const desktopSize = Math.min(baseFontSize * 1.125, baseFontSize * 0.9 + (1024 * viewportScale / 100));
+            
+            document.getElementById('mobileSize').textContent = `${Math.round(mobileSize)}px`;
+            document.getElementById('tabletSize').textContent = `${Math.round(tabletSize)}px`;
+            document.getElementById('desktopSize').textContent = `${Math.round(desktopSize)}px`;
+        }
+
+        // Event listeners
+        document.getElementById('baseFontSize').addEventListener('input', (e) => {
+            currentSettings.baseFontSize = parseInt(e.target.value);
+            document.getElementById('baseFontValue').textContent = `${e.target.value}px`;
+            updateTypography();
+        });
+
+        document.getElementById('typeScale').addEventListener('input', (e) => {
+            currentSettings.typeScale = parseFloat(e.target.value);
+            document.getElementById('typeScaleValue').textContent = e.target.value;
+            updateTypography();
+        });
+
+        document.getElementById('lineHeight').addEventListener('change', (e) => {
+            currentSettings.lineHeight = parseFloat(e.target.value);
+            updateTypography();
+        });
+
+        document.getElementById('letterSpacing').addEventListener('change', (e) => {
+            currentSettings.letterSpacing = e.target.value;
+            updateTypography();
+        });
+
+        document.getElementById('viewportScale').addEventListener('input', (e) => {
+            currentSettings.viewportScale = parseFloat(e.target.value);
+            document.getElementById('viewportScaleValue').textContent = `${e.target.value}vw`;
+            updateTypography();
+        });
+
+        document.querySelectorAll('input[name="method"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                currentSettings.method = e.target.value;
+                updateTypography();
+            });
+        });
+
+        document.getElementById('copyCss').addEventListener('click', () => {
+            const cssText = document.getElementById('cssOutput').textContent;
+            navigator.clipboard.writeText(cssText).then(() => {
+                const button = document.getElementById('copyCss');
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.classList.add('bg-green-600');
+                button.classList.remove('bg-blue-600');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('bg-green-600');
+                    button.classList.add('bg-blue-600');
+                }, 2000);
+            });
+        });
+
+        // Initialize
+        updateTypography();
+    </script>
+</body>
+</html>
